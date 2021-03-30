@@ -18,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::resource('barang', BarangController::class);
+Route::get('barang/search/data', [BarangController::class, 'search'])->name('barang.search');

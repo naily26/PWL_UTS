@@ -15,16 +15,13 @@
             <p>{{ $message }}</p>
         </div>
         @endif
-        {{-- <form method="post" action="{{url('cari')}}" id="myForm">
-            @csrf
-                <div class="form-group">
-                <label for="kode_barang">Cari</label>
-                <input type="text"name="nim"class="form-control"id="Nim"aria-describedby="Nim"  placeholder="Cari bedasarkan nim">
-                </div>
-                <button type="submit" class="btn btn-success mt-3">
-            cari
-            </button>
-        </form> --}}
+        <form method="get" action="{{route('barang.search')}}" id="myForm">
+            <div class="form-group">
+            <label for="keyword">Cari</label>
+            <input type="search"name="keyword"class="form-control"id="keyword"aria-describedby="keyword"  placeholder="Ketikkan yang dicari">
+            </div>
+            <button type="submit" class="btn btn-success mt-3">cari</button>
+        </form>
         <table class="table table-bordered">
             <tr>
             <th>Id_barang</th>
@@ -44,15 +41,32 @@
                     <td>{{  $brg->harga }}</td>
                     <td>{{  $brg->qty }}</td>
                     <td>
-                    <form action="{{ route('barang.destroy',['barang'=> $brg->id_barang]) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('barang.show',['barang'=> $brg->id_barang]) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('barang.edit',['barang'=> $brg->id_barang]) }}">Edit</a>
-                    @csrf 
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                        <a class="btn btn-info" href="{{ route('barang.show',['barang'=>$brg->id_barang]) }}">Show</a>
+                        <a class="btn btn-primary" href="{{ route('barang.edit',['barang'=>$brg->id_barang]) }}">Edit</a>
+                        <button type="button" data-toggle="modal" data-target="#delete{{$brg->id_barang}}" class="btn btn-danger">Delete</button>
                     </td>
-                </tr>              
+                </tr>   
+                <div class="modal" id="delete{{$brg->id_barang}}" tabindex="-1">
+                    <form action="{{ route('barang.destroy',['barang'=>$brg->id_barang]) }}" method="POST">
+                        @csrf 
+                        @method('DELETE')
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Delete Option</h5>
+                              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <p>are you sure to delete this data?</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                              <button type="submit" class="btn btn-primary">yes</button>
+                            </div>
+                          </div>
+                        </div>
+                    </form>
+                </div>           
             @endforeach
         </table>
        {{ $barang->links("pagination::bootstrap-4") }}
