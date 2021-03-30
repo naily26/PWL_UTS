@@ -14,12 +14,12 @@ class CreateBarangsTable extends Migration
     public function up()
     {
         Schema::create('barang', function (Blueprint $table) {
-            $table->integer('id_barang')->primary();
+            $table->bigInteger('id_barang', 20)->unsigned();
             $table->string('kode_barang', 10)->nullable();
             $table->string('nama_barang', 50)->nullable();
             $table->string('kategori_barang', 50)->nullable();
-            $table->integer('harga')->nullable();
-            $table->integer('qty')->nullable();
+            $table->integer('harga')->unsigned();
+            $table->integer('qty')->unsigned();
             $table->timestamps();
         });
     }
